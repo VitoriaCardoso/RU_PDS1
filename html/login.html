@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal do Estudante</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/login.css">
+    
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="center-content">
+                <div class="text-center">
+                    <img src="../img/logo.png" alt="Logo" class="logo-img mb-3" width="300">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Login do Usuário</h2>
+                            <form name="formCadastro" id="loginForm" action="../php/login.php" method="post">
+                                <!-- Campo Email -->
+                                <div class="form-group mb-3">
+                                    <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="Digite seu email">
+                                    <div class="alert alert-danger d-none" id="alert-email"></div>
+                                </div>
+                                
+                                <!-- Campo Senha -->
+                                <div class="form-group mb-3">
+                                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite sua senha">
+                                    <div class="alert alert-danger d-none" id="alert-senha"></div>
+                                </div>
+                                
+                                <!-- Botão de Enviar -->
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Link para a página de Cadastrar (Semelhante ao GitHub) -->
+                    <div class="link-container">
+                        <a href="index.html" class="text-secondary">Voltar para a página inicial</a>
+                        <button class="btn-register" onclick="window.location.href='cadastroUsuario.html'">Criar uma conta</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

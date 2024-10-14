@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Portal do Estudante</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/login.css"> <!-- Incluindo o CSS do login -->
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="center-content">
+                <div class="text-center">
+                    <img src="../img/logo.png" alt="Logo" class="logo-img mb-3" width="300">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Cadastro do Usuário</h2>
+                            <form name="formCadastro" id="cadastroForm" action="../php/cadastro.php" method="post">
+                                <div class="form-floating mb-3">
+                                    <input type="text" id="nome" name="nome" autocomplete="off" class="form-control" placeholder="Nome" required>
+                                    <div class="alert alert-danger d-none" id="alert-nome"></div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" id="matricula" name="matricula" autocomplete="off" class="form-control" placeholder="Matrícula" required>
+                                    <div class="alert alert-danger d-none" id="alert-matricula"></div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="Email" required>
+                                    <div class="alert alert-danger d-none" id="alert-email"></div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha" required>
+                                    <div class="alert alert-danger d-none" id="alert-senha"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Link para a página inicial -->
+                    <div class="link-container">
+                        <a href="index.html" class="text-secondary">Voltar para a página inicial</a>
+                        <a href="login.html" class="text-secondary">Já possui uma conta? Faça login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

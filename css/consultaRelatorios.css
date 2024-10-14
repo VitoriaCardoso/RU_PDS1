@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    display: flex; /* Adicionado para permitir o uso de flexbox */
+    flex-direction: column; /* Coloca os elementos em coluna */
+    min-height: 100vh; /* Garante que o corpo ocupe pelo menos a altura total da tela */
+}
+
+.header {
+    background-color: #0B2640;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo-subtitle {
+    margin: 0;
+    font-size: 14px;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #173C5C;
+    border-radius: 5px;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+    flex: 1; /* Adicionado para ocupar o espaço restante */
+}
+
+.welcome h2 {
+    font-size: 26px;
+    color: #0B2640;
+}
+
+.welcome p {
+    font-size: 18px;
+    color: #333;
+}
+
+.footer {
+    background-color: #0B2640;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+/* Estilo para o logo */
+.logo-img {
+    margin-bottom: 10px;
+    max-width: 150px; /* Limite o tamanho da imagem para mantê-la proporcional */
+}

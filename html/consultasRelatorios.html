@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas e Relatórios - Predic RU</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/consultaRelatorios.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <h1 class="logo-title">Predict RU</h1>
+            <p class="logo-subtitle">Projeto de PSDI 1</p>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active">Consultas e Relatórios</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Tíquetes RU</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="container mt-4">
+        <div class="welcome text-center">
+            <img src="../img/logo.png" alt="Logo" class="logo-img" width="100">
+            <h2>Bem-vindo(a), Nome Sobrenome</h2>
+            <p>Matrícula: 0000ABC000 &nbsp;&nbsp; Curso: 00000AB - Nome Curso</p>
+        </div>
+
+        <h3 class="mt-4">Cardápio da Semana</h3>
+        <table class="table table-bordered mt-3">
+            <thead class="thead-light">
+                <tr>
+                    <th>Dia</th>
+                    <th>Almoço</th>
+                    <th>Jantar</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Segunda</td>
+                    <td>Arroz, Feijão, Frango Grelhado</td>
+                    <td>Sopa de Legumes, Pão</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSegunda">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Terça</td>
+                    <td>Macarrão ao Molho, Salada</td>
+                    <td>Estrogonofe, Arroz</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalTerça">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Quarta</td>
+                    <td>Risoto de Frango, Legumes</td>
+                    <td>Pasta com Molho de Tomate</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalQuarta">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Quinta</td>
+                    <td>Feijoada, Arroz, Couve</td>
+                    <td>Pizza</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalQuinta">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Sexta</td>
+                    <td>Peixe Grelhado, Purê de Batata</td>
+                    <td>Sanduíche Natural</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSexta">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Sábado</td>
+                    <td>Frango à Parmegiana, Salada</td>
+                    <td>Macarrão ao Molho Branco</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSabado">Detalhes</button></td>
+                </tr>
+                <tr>
+                    <td>Domingo</td>
+                    <td>Feijão Tropeiro, Arroz</td>
+                    <td>Churrasco, Pão de Alho</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalDomingo">Detalhes</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    
+    <footer class="footer">
+        <p>Projeto Predict RU - Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Modal Segunda -->
+    <div class="modal fade" id="modalSegunda" tabindex="-1" aria-labelledby="modalSegundaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSegundaLabel">Detalhes - Segunda-feira</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Arroz, Feijão, Frango Grelhado, Salada de Tomate e Cebola</p>
+                    <h6>Jantar:</h6>
+                    <p>Sopa de Legumes, Pão, Fruta da Estação</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Terça -->
+    <div class="modal fade" id="modalTerça" tabindex="-1" aria-labelledby="modalTerçaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTerçaLabel">Detalhes - Terça-feira</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Macarrão ao Molho, Salada de Alface e Tomate</p>
+                    <h6>Jantar:</h6>
+                    <p>Estrogonofe de Carne, Arroz e Batata Palha</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Quarta -->
+    <div class="modal fade" id="modalQuarta" tabindex="-1" aria-labelledby="modalQuartaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalQuartaLabel">Detalhes - Quarta-feira</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Risoto de Frango com Legumes</p>
+                    <h6>Jantar:</h6>
+                    <p>Pasta com Molho de Tomate e Queijo</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Quinta -->
+    <div class="modal fade" id="modalQuinta" tabindex="-1" aria-labelledby="modalQuintaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalQuintaLabel">Detalhes - Quinta-feira</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Feijoada Completa com Arroz e Couve</p>
+                    <h6>Jantar:</h6>
+                    <p>Pizza de Calabresa e Mussarela</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sexta -->
+    <div class="modal fade" id="modalSexta" tabindex="-1" aria-labelledby="modalSextaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSextaLabel">Detalhes - Sexta-feira</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Peixe Grelhado com Purê de Batata e Salada</p>
+                    <h6>Jantar:</h6>
+                    <p>Sanduíche Natural de Frango</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sábado -->
+    <div class="modal fade" id="modalSabado" tabindex="-1" aria-labelledby="modalSabadoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSabadoLabel">Detalhes - Sábado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Frango à Parmegiana com Salada</p>
+                    <h6>Jantar:</h6>
+                    <p>Macarrão ao Molho Branco com Queijo</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Domingo -->
+    <div class="modal fade" id="modalDomingo" tabindex="-1" aria-labelledby="modalDomingoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDomingoLabel">Detalhes - Domingo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Almoço:</h6>
+                    <p>Feijão Tropeiro com Arroz e Couve</p>
+                    <h6>Jantar:</h6>
+                    <p>Churrasco com Pão de Alho e Salada</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
