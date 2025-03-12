@@ -1,0 +1,51 @@
+.header {
+    background-color: #0B2640;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo-subtitle {
+    margin: 0;
+    font-size: 14px;
+}
+
+.main-nav {
+    margin-top: 10px;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #173C5C;
+    border-radius: 5px;
+}

@@ -1,8 +1,7 @@
-.footer {
+footer {
     background-color: #0B2640;
     color: white;
     text-align: center;
     padding: 10px 0;
     width: 100%;
-    /* Removido position: absolute e bottom: 0 */
 }

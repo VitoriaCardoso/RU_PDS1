@@ -1,0 +1,5 @@
+/* Estilo para o logo */
+.logo-img {
+    margin-bottom: 10px;
+    max-width: 150px; /* Limite o tamanho da imagem para mantê-la proporcional */
+}
