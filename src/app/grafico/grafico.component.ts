@@ -13,47 +13,60 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   @ViewChild('chart2') chart2!: ElementRef;
 
   ngAfterViewInit() {
-    this.criarGrafico(this.chart1.nativeElement, 'Sétimo Ano');
-    this.criarGrafico(this.chart2.nativeElement, 'Nono Ano');
+    this.criarGraficoDia(this.chart2.nativeElement);
+    this.criarGraficoSemana(this.chart1.nativeElement);
   }
 
-  criarGrafico(canvas: HTMLCanvasElement, titulo: string) {
-    if (canvas) {
-      new Chart(canvas, {
-        type: 'line',
-        data: {
-          labels: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'],
-          datasets: [
-            {
-              label: 'Sétimo ano',
-              data: [10, 12, 15, 18, 22, 25, 24, 27, 30, 32],
-              borderColor: 'blue',
-              fill: false
-            },
-            {
-              label: 'Oitavo ano',
-              data: [12, 15, 18, 16, 20, 23, 25, 26, 30, 33, 35],
-              borderColor: 'red',
-              fill: false
-            },
-            {
-              label: 'Nono ano',
-              data: [20, 21, 19, 22, 25, 27, 28, 30, 33, 34, 35],
-              borderColor: 'yellow',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top'
-            }
+  criarGraficoDia(canvas: HTMLCanvasElement) {
+    new Chart(canvas, {
+    type: 'line',
+      data: {
+        labels: ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
+        datasets: [
+          {
+            label: 'Quantidade de Alunos',
+            data: [10, 12, 15, 18, 22, 25],
+            borderColor: '#008c9e',
+            fill: false
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
           }
         }
-      });
-    }
-}}
+      }
+    });
+  }
+
+  criarGraficoSemana(canvas: HTMLCanvasElement) {
+    new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: ['Segunda-Feira'],
+        datasets: [{
+          label: 'Quantidade de Alunos',
+          data: [30],
+          backgroundColor: '#b1e6d1',
+          borderColor: '#005f6b',
+          borderWidth: 2.5 ,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+  }
+}
