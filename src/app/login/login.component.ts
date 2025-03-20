@@ -1,8 +1,10 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { LogoComponent } from "../logo/logo.component";
 import { Chart } from 'chart.js';
+
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [LogoComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
