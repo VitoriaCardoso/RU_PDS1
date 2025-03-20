@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'logo',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './logo.component.css'
 })
 export class LogoComponent {
-
+  @Input() width: number = 100;
 }

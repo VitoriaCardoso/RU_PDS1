@@ -30,3 +30,15 @@ main {
     font-size: 18px;
     color: #333;
 }
+
+.form-card {
+    max-width: 500px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+

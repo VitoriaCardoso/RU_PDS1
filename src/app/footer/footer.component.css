@@ -2,6 +2,11 @@ footer {
     background-color: #0B2640;
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 15px 0;
     width: 100%;
+}
+
+p {
+    margin: auto;
+    font-size: 14px;
 }
