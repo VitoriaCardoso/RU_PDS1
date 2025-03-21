@@ -10,5 +10,10 @@ import { LogoComponent } from '../logo/logo.component';
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
+  presencaConfirmada = false;
 
+  confirmarPresenca() {
+    this.presencaConfirmada = true;
+    alert('Presença confirmada no refeitório com sucesso!');
+  }
 }
