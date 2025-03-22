@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="text-center">
+        <logo></logo>
+        <div class="form-card mx-auto">
+            <h2 class="card-title mb-3">Login do Usuário</h2>
+            <form name="formCadastro" id="loginForm" action="../php/login.php" method="post">
+                <!-- Campo Email -->
+                <div class="form-group mb-3">
+                    <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="Digite seu email">
+                    <div class="alert alert-danger d-none" id="alert-email"></div>
+                </div>
+                
+                <!-- Campo Senha -->
+                <div class="form-group mb-3">
+                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite sua senha">
+                    <div class="alert alert-danger d-none" id="alert-senha"></div>
+                </div>
+                
+                <!-- Botão de Enviar -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                </div>
+                </form>
+
+
+                <p>Não possui uma conta?</p>
+                <!-- Link para a página de Cadastrar (Semelhante ao GitHub) -->
+                <div class="link-container mx-auto">
+                    <button class="btn btn-outline-success" onclick="window.location.href='cadastro'">Criar Conta</button>
+                    <a href="index.html" class="btn btn-outline-primary">Página Inicial</a>
+                </div>
+        
+        </div>
+    </div>
+</div>
