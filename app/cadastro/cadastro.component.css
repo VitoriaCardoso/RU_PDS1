@@ -1,0 +1,9 @@
+.link-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+p {
+    margin-bottom: 8px;
+}
