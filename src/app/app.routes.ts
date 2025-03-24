@@ -11,9 +11,9 @@ export const routes: Routes = [
     { path: '', redirectTo: 'index', pathMatch: 'full' },
     { path: 'index', component: MainPageComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'cadastro', component: CadastroComponent},
     { path: 'avaliacao', title: 'Avaliação', component: ConsultaAvaliacaoComponent },
     { path: 'cardapio', title: 'Cardápio', component: ConsultaCardapioComponent },
     { path: 'grafico', title: 'Gráfico', component: ConsultaGraficoComponent },
     { path: '**', component: PaginaNotFoundComponent},
-    { path: 'cadastro', component: CadastroComponent},
 ];
