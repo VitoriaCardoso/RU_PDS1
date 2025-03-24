@@ -5,6 +5,7 @@ import { ConsultaGraficoComponent } from './grafico/grafico.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { PaginaNotFoundComponent } from './pagina-not-found/pagina-not-found.component';
 import { LoginComponent } from './login/login.component';
+import { CadastroComponent } from './cadastro/cadastro.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'index', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'avaliacao', title: 'Avaliação', component: ConsultaAvaliacaoComponent },
     { path: 'cardapio', title: 'Cardápio', component: ConsultaCardapioComponent },
     { path: 'grafico', title: 'Gráfico', component: ConsultaGraficoComponent },
-    { path: '**', component: PaginaNotFoundComponent}
+    { path: '**', component: PaginaNotFoundComponent},
+    { path: 'cadastro', component: CadastroComponent},
 ];
