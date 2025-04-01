@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CommonModule } from '@angular/common'; 
 import { ConsultaCardapioComponent } from './cardapio';
 
 describe('ConsultaCardapioComponent', () => {
@@ -8,9 +8,9 @@ describe('ConsultaCardapioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConsultaCardapioComponent]
-    })
-    .compileComponents();
+      imports: [CommonModule],
+      declarations: [ConsultaCardapioComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ConsultaCardapioComponent);
     component = fixture.componentInstance;

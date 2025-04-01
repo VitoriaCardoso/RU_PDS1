@@ -9,47 +9,55 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Segunda</td>
-            <td>Arroz, Feijão, Frango Grelhado</td>
-            <td>Sopa de Legumes, Pão</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSegunda">Detalhes</button></td>
+        <tr *ngFor="let dia of cardapio; let i = index">
+            <td>{{ dia.dia }}</td>
+            <td>{{ dia.almoco }}</td>
+            <td>{{ dia.jantar }}</td>
+            <td>
+                <button class="btn btn-primary" (click)="toggleDetalhes(i)">Detalhes</button>
+            </td>
         </tr>
-        <tr>
-            <td>Terça</td>
-            <td>Macarrão ao Molho, Salada</td>
-            <td>Estrogonofe, Arroz</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalTerça">Detalhes</button></td>
-        </tr>
-        <tr>
-            <td>Quarta</td>
-            <td>Risoto de Frango, Legumes</td>
-            <td>Pasta com Molho de Tomate</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalQuarta">Detalhes</button></td>
-        </tr>
-        <tr>
-            <td>Quinta</td>
-            <td>Feijoada, Arroz, Couve</td>
-            <td>Pizza</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalQuinta">Detalhes</button></td>
-        </tr>
-        <tr>
-            <td>Sexta</td>
-            <td>Peixe Grelhado, Purê de Batata</td>
-            <td>Sanduíche Natural</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSexta">Detalhes</button></td>
-        </tr>
-        <tr>
-            <td>Sábado</td>
-            <td>Frango à Parmegiana, Salada</td>
-            <td>Macarrão ao Molho Branco</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalSabado">Detalhes</button></td>
-        </tr>
-        <tr>
-            <td>Domingo</td>
-            <td>Feijão Tropeiro, Arroz</td>
-            <td>Churrasco, Pão de Alho</td>
-            <td><button class="btn btn-primary" data-toggle="modal" data-target="#modalDomingo">Detalhes</button></td>
+        <tr *ngIf="isDetalheAtivo()">
+            <td colspan="4">
+                <div class="container">
+                    <h5>Horários Disponíveis para {{ diaSelecionado?.dia }}</h5>
+                    
+                    <div class="mb-3">
+                        <h6>Almoço:</h6>
+                        <div class="btn-group-vertical" role="group">
+                            <button *ngFor="let horario of getHorariosAlmoco()" 
+                                    class="btn btn-outline-primary mb-1"
+                                    (click)="selecionarHorario('almoco', horario)"
+                                    [class.active]="horarioSelecionado.almoco === horario">
+                                {{ horario }}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Jantar:</h6>
+                        <div class="btn-group-vertical" role="group">
+                            <button *ngFor="let horario of getHorariosJantar()" 
+                                    class="btn btn-outline-primary mb-1"
+                                    (click)="selecionarHorario('jantar', horario)"
+                                    [class.active]="horarioSelecionado.jantar === horario">
+                                {{ horario }}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div *ngIf="horarioSelecionado.almoco || horarioSelecionado.jantar" class="alert alert-info">
+                        <p *ngIf="horarioSelecionado.almoco"><strong>Almoço selecionado:</strong> {{ horarioSelecionado.almoco }}</p>
+                        <p *ngIf="horarioSelecionado.jantar"><strong>Jantar selecionado:</strong> {{ horarioSelecionado.jantar }}</p>
+                    </div>
+                    
+                    <button class="btn btn-success me-2" (click)="confirmarHorarios()" 
+                            [disabled]="!horarioSelecionado.almoco && !horarioSelecionado.jantar">
+                        Confirmar
+                    </button>
+                    <button class="btn btn-danger" (click)="toggleDetalhes(null)">Fechar</button>
+                </div>
+            </td>
         </tr>
     </tbody>
 </table>
