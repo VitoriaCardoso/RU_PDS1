@@ -1,8 +1,8 @@
 <h3 class="mt-4 text-center">Avaliação da Comida</h3>
-<form class="mt-3 mx-auto form-card">
+<form class="mt-3 mx-auto form-card" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <label for="nota">Nota (1 a 5):</label>
-        <select id="nota" class="form-control">
+        <select id="nota" class="form-control" [(ngModel)]="nota" name="nota">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -12,7 +12,15 @@
     </div>
     <div class="form-group">
         <label for="comentarios">Comentários:</label>
-        <textarea id="comentarios" class="form-control" rows="3"></textarea>
+        <textarea id="comentarios" class="form-control" rows="3" [(ngModel)]="comentarios" name="comentarios"></textarea>
     </div>
     <button type="submit" class="btn btn-success d-block mx-auto mt-3">Enviar Avaliação</button>
 </form>
+
+<div *ngIf="mensagem" class="alert alert-success mt-3 text-center">
+    {{ mensagem }}
+</div>
+
+<div *ngIf="erro" class="alert alert-danger mt-3 text-center">
+    {{ erro }}
+</div>

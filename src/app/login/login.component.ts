@@ -1,36 +1,42 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { LogoComponent } from "../logo/logo.component";
-import { Chart } from 'chart.js';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [LogoComponent],
+  standalone: true,
+  imports: [LogoComponent, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements AfterViewInit {
-  @ViewChild('frequenciaChart') frequenciaChart!: ElementRef;
+export class LoginComponent {
+  email: string = '';
+  senha: string = '';
+  mensagem: string = '';
+  erro: string = '';
 
-  ngAfterViewInit() {
-    const ctx = this.frequenciaChart.nativeElement.getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['A', 'B', 'C', 'D', 'E'],
-        datasets: [{
-          label: 'Frequência',
-          data: [10, 25, 14, 30, 20],
-          backgroundColor: 'rgba(54, 162, 235, 0.6)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        }],
+  constructor(private http: HttpClient, private router: Router) {}
+
+  onSubmit() {
+    console.log('Tentando fazer login com:', { email: this.email, senha: this.senha });
+    
+    this.http.post('http://localhost:8080/login/auth', {
+      email: this.email,
+      senha: this.senha
+    }).subscribe({
+      next: (response: any) => {
+        console.log('Login bem sucedido:', response);
+        localStorage.setItem('usuarioId', response.id);
+        localStorage.setItem('usuarioNome', response.nome);
+        this.router.navigate(['/avaliacao']);
       },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true },
-        },
-      },
+      error: (error) => {
+        console.error('Erro no login:', error);
+        this.erro = 'Email ou senha incorretos';
+      }
     });
   }
 }
