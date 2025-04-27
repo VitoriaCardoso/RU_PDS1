@@ -1,36 +1,55 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { LogoComponent } from "../logo/logo.component";
-import { Chart } from 'chart.js';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { LoginService } from '../../app/login/service/login.service';
+import { LoginModel } from '../login/models/login.model';
+import { AuthService } from '../services/auth.service';  // Importe o AuthService
 
 @Component({
   selector: 'app-login',
-  imports: [LogoComponent],
+  imports: [
+    LogoComponent,
+    FormsModule,
+    CommonModule,
+    RouterModule
+  ],
+  standalone: true,
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements AfterViewInit {
-  @ViewChild('frequenciaChart') frequenciaChart!: ElementRef;
+export class LoginComponent {
+  email: string = '';
+  senha: string = '';
+  erroEmail: string = '';
+  erroSenha: string = '';
 
-  ngAfterViewInit() {
-    const ctx = this.frequenciaChart.nativeElement.getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['A', 'B', 'C', 'D', 'E'],
-        datasets: [{
-          label: 'Frequência',
-          data: [10, 25, 14, 30, 20],
-          backgroundColor: 'rgba(54, 162, 235, 0.6)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        }],
+  constructor(private loginService: LoginService, private router: Router, private authService: AuthService) { }
+
+  onLogin(): void {
+    this.erroEmail = '';
+    this.erroSenha = '';
+
+
+    this.loginService.autenticar(this.email, this.senha).subscribe({
+      next: (res: LoginModel) => {
+        console.log(res)
+        localStorage.setItem('usuario', JSON.stringify(res));
+        this.router.navigate(['/index']);
+        this.authService.setLoginStatus(true);
       },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true },
-        },
-      },
+      error: (err) => {
+        console.log(err)
+        if (err.error == 'Senha incorreta.') {
+          this.erroSenha = 'Senha incorreta.';
+        } else if (err.error == 'Usuário não encontrado.') {
+          this.erroEmail = 'Usuário não encontrado.';
+        } else {
+          this.erroEmail = 'Credenciais inválidas ou usuário não encontrado';
+        }
+      }
     });
   }
+
 }

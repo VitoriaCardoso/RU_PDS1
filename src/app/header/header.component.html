@@ -6,22 +6,22 @@
     <nav class="main-nav">
         <ul class="nav-list">
             <li class="nav-item">
-                <a routerLink="" class="nav-link">Home</a>
+                <a routerLink="index" routerLinkActive="active" class="nav-link">Home</a> <!-- corrigido -->
             </li>
             <li class="nav-item">
-                <a routerLink="avaliacao" class="nav-link">Avaliação da Refeição</a>
+                <a routerLink="avaliacao" routerLinkActive="active" class="nav-link">Avaliação da Refeição</a>
             </li>
             <li class="nav-item">
-                <a routerLink="cardapio" class="nav-link">Cardápio</a>
+                <a routerLink="cardapio" routerLinkActive="active" class="nav-link">Cardápio</a>
             </li>
             <li class="nav-item">
-                <a routerLink="grafico" class="nav-link">Gráfico de frequência</a>
+                <a routerLink="grafico" routerLinkActive="active" class="nav-link">Gráfico de frequência</a>
             </li>
-            <li class="nav-item">
-                <a routerLink="login" class="nav-link">Login</a>
+            <li *ngIf="!isLoggedIn" class="nav-item">
+                <a routerLink="login" routerLinkActive="active" class="nav-link">Login</a>
             </li>
-            <li class="nav-item">
-                <a routerLink="sair" class="nav-link">Sair</a>
+            <li *ngIf="isLoggedIn" class="nav-item">
+                <a (click)="logout()" routerLinkActive="active" class="nav-link" style="cursor: pointer;">Sair</a>
             </li>
         </ul>
     </nav>
