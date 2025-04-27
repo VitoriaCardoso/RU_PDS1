@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-
 import { Chart, ChartConfiguration, ChartData, ChartEvent, registerables } from 'chart.js/auto';
+import { FrequenciaService } from './service/grafico.service'; // ajuste o caminho conforme seu projeto
 
 @Component({
   selector: 'app-grafico',
@@ -12,61 +12,65 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   @ViewChild('chart1') chart1!: ElementRef;
   @ViewChild('chart2') chart2!: ElementRef;
 
+  constructor(private frequenciaService: FrequenciaService) {
+    Chart.register(...registerables);
+  }
+
   ngAfterViewInit() {
-    this.criarGraficoDia(this.chart2.nativeElement);
-    this.criarGraficoSemana(this.chart1.nativeElement);
+    this.criarGraficoDia('segunda');
+    this.criarGraficoSemana();
   }
 
-  criarGraficoDia(canvas: HTMLCanvasElement) {
-    new Chart(canvas, {
-    type: 'line',
-      data: {
-        labels: ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
-        datasets: [
-          {
-            label: 'Quantidade de Alunos',
-            data: [10, 12, 15, 18, 22, 25],
-            borderColor: '#008c9e',
-            fill: false
-          },
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
+  criarGraficoDia(diaSemana: string): void {
+    this.frequenciaService.graficoPorDia(diaSemana).subscribe(data => {
+      const labels = data.map(item => item.horario); // ajuste conforme seu backend
+      const values = data.map(item => item.quantidade);
+
+      new Chart(this.chart1.nativeElement, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: `Frequência na ${diaSemana}`,
+            data: values,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
           }
         }
-      }
+      });
     });
   }
 
-  criarGraficoSemana(canvas: HTMLCanvasElement) {
-    new Chart(canvas, {
-      type: 'bar',
+  criarGraficoSemana() {
+    this.frequenciaService.graficoPorSemana().subscribe(data => {
+      const labels = data.map(item => item.diaSemana); // ajuste conforme seu backend
+      const values = data.map(item => item.quantidadeTotal);
+    new Chart(this.chart2.nativeElement, {
+      type: 'line',
       data: {
-        labels: ['Segunda-Feira'],
+        labels,
         datasets: [{
-          label: 'Quantidade de Alunos',
-          data: [30],
-          backgroundColor: '#b1e6d1',
-          borderColor: '#005f6b',
-          borderWidth: 2.5 ,
-        }],
+          label: 'Frequência na Semana',
+          data: values,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          fill: false,
+          tension: 0.3
+        }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          }
+        scales: {
+          y: { beginAtZero: true }
         }
       }
     });
-  }
-}
+  });
+}}
