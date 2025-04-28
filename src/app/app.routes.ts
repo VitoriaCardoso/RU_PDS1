@@ -16,6 +16,6 @@ export const routes: Routes = [
     { path: 'avaliacao', title: 'Avaliação', component: ConsultaAvaliacaoComponent },
     { path: 'cardapio', title: 'Cardápio', component: ConsultaCardapioComponent },
     { path: 'grafico', title: 'Gráfico', component: ConsultaGraficoComponent },
-    { path: 'usuario', component: UsuarioComponent},
+    { path: 'cadastro/editar_usuario', component: UsuarioComponent},
     { path: '**', component: PaginaNotFoundComponent}
 ];

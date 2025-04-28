@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core'
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth.service';  // Importe o AuthService
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +24,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.setLoginStatus(false);  // Atualiza o status de login através do serviço
+    localStorage.removeItem('usuario');
+    this.authService.setLoginStatus(false);
     this.router.navigate(['/login']);
   }
 }

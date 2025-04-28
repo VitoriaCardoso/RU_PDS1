@@ -51,13 +51,13 @@ ul {
     font-weight: bold;
     border-radius: 5px;
     transition: background-color 0.5s ease;
-    cursor: pointer;
 }
 
 .nav-link:hover {
     background-color: white;
     color: #0B2640;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .nav-link:active {

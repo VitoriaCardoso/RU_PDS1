@@ -1,33 +1,31 @@
 <div class="container">
     <div class="text-center">
+        <logo></logo>
         <div class="form-card mx-auto">
             <h2 class="card-title mb-3">Detalhes do usuário</h2>
-
-            <form>
-                <!-- Campo Nome -->
+            <form (ngSubmit)="editarUsuario()">
                 <div class="form-group mb-3">
                     <input type="text" id="nome" name="nome" [(ngModel)]="usuario.nome" class="form-control"
                         placeholder="Digite seu Nome" required />
                 </div>
-
-                <!-- Campo E-mail -->
                 <div class="form-group mb-3">
                     <input type="email" id="email" name="email" [(ngModel)]="usuario.email" class="form-control"
                         placeholder="Digite seu email" required />
                 </div>
-
-                <!-- Campo Senha -->
                 <div class="form-group mb-3">
                     <input type="password" id="senha" name="senha" [(ngModel)]="usuario.senha" class="form-control"
                         placeholder="Digite sua senha" required />
                 </div>
-
-                <!-- Campo Matrícula -->
                 <div class="form-group mb-3">
-                    <input type="text" id="matric" name="matric" [(ngModel)]="usuario.matricula" class="form-control" placeholder="Digite sua Matrícula"
+                    <input type="text" id="matric" name="matric" [(ngModel)]="usuario.matric" class="form-control" placeholder="Digite sua Matrícula"
                         required />
                 </div>
-
+                <div class="form-group mb-3">
+                    <input type="text" id="curso" name="curso" [(ngModel)]="usuario.curso" class="form-control" placeholder="Digite seu Curso"
+                        required />
+                </div>
+                <div class="alert alert-success mt-3" *ngIf="msgSuccess">{{ msgSuccess }}</div>
+                <div class="alert alert-danger mt-3" *ngIf="msgFail">{{ msgFail }}</div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary btn-block">Atualizar</button>
                 </div>
