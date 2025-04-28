@@ -27,7 +27,7 @@ export class UsuarioComponent implements OnInit {
 
   constructor(private router: Router,private route: ActivatedRoute, private authService: AuthService, private cadastroService: CadastroService) {
     if (!this.authService.checkLoginStatus()) {
-      this.router.navigate(['/index']);
+      this.router.navigate(['/grafico']);
     }
   }
 
@@ -36,6 +36,7 @@ export class UsuarioComponent implements OnInit {
     if (usuarioSalvo) {
       this.usuario = JSON.parse(usuarioSalvo);
       this.id = this.usuario.id
+      console.log(this.id)
     }
   }
 

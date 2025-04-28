@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { LogoComponent } from '../logo/logo.component';
 
 @Component({
@@ -15,17 +16,17 @@ export class MainPageComponent {
     matric: '',
     curso: ''
   };
-  presencaConfirmada = false;
+
+  constructor(private authService: AuthService, private router: Router) {} // Injetar AuthService e Router
 
   ngOnInit(): void {
+    if (!this.authService.checkLoginStatus()) {
+      this.router.navigate(['/grafico']);
+    }
+
     const usuarioSalvo = localStorage.getItem('usuario');
     if (usuarioSalvo) {
       this.usuario = JSON.parse(usuarioSalvo);
     }
-  }
-
-  confirmarPresenca() {
-    this.presencaConfirmada = true;
-    alert('Presença confirmada no refeitório com sucesso!');
   }
 }

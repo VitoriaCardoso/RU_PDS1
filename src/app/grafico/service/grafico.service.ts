@@ -13,4 +13,8 @@ export class FrequenciaService {
   graficoPorSemana(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}`);
   }
+
+  contarFrequenciasPorDiaSemanaEHorario(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/contar`);
+  }
 }

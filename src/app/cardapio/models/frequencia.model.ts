@@ -2,7 +2,8 @@
 export interface FrequenciaModel {
     aluno: number;
     dia_semana: number;
-    horario: string;
+    horariod: string;
+    horarion: string;
     data_frequencia: string;
   }
   
