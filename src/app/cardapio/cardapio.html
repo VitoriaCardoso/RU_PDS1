@@ -1,5 +1,5 @@
 <h3 class="mt-4">Cardápio da Semana</h3>
-
+<div class="alert alert-success mt-3" *ngIf="corretoSalvar">{{ corretoSalvar }}</div>
 <h6>Códigos dos Dias</h6>
 <table class="table  mx-auto tabela-customizada table-bordered mt-3">
     <thead class="thead-light">
@@ -64,8 +64,6 @@
 
                     <h6>Confira sempre a Tabela Códigos dos Dias acima para confirmar no Dia certo!</h6>
 
-
-                    <div class="alert alert-success mt-3" *ngIf="corretoSalvar">{{ corretoSalvar }}</div>
                     <div class="alert alert-danger mt-3" *ngIf="erroSalvar">{{ erroSalvar }}</div>
                     <div class="mb-3">
                         <h6>Almoço:</h6>
