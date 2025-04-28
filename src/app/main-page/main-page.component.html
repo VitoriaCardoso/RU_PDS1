@@ -1,8 +1,5 @@
 <div class="welcome">
     <logo></logo>
-    <h2>Bem-vindo(a) Nome Sobrenome</h2>
-    <p>Matrícula: 0000ABC000 &nbsp;&nbsp; Curso: 00000AB - Nome Curso</p>
-    <button (click)="confirmarPresenca()" [disabled]="presencaConfirmada">
-        {{ presencaConfirmada ? 'Presença Confirmada no Refeitório' : 'Confirmar Presença no Refeitório' }}
-    </button>
+    <h2>Bem-vindo(a) {{usuario.nome}}</h2>
+    <p>Matrícula: {{usuario.matric}} &nbsp;&nbsp; Curso: {{usuario.curso}}</p>
 </div>

@@ -4,5 +4,6 @@ export interface CadastroModel {
     senha: string;
     email: string;
     matric: string;
+    curso: string;
   }  
 
