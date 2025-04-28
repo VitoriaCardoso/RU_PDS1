@@ -1,46 +1,40 @@
 <div class="container">
     <div class="text-center">
-        <logo></logo>
-        <div class="form-card mx-auto">
-            <h2 class="card-title mb-3">Cadastro do Usuário</h2>
-            <form name="formCadastro" id="loginForm" action="../php/cadastro.php" method="post">
-                <!-- Campo Email -->
-                <div class="form-group mb-3">
-                    <input type="email" id="email" name="email" autocomplete="off" class="form-control" placeholder="Digite seu email">
-                    <div class="alert alert-danger d-none" id="alert-email"></div>
-                </div>
-                
-                <!-- Campo Senha -->
-                <div class="form-group mb-3">
-                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite sua senha">
-                    <div class="alert alert-danger d-none" id="alert-senha"></div>
-                </div>
-                
-                <!-- Campo Nome -->
-                <div class="form-group mb-3">
-                    <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite seu Nome">
-                    <div class="alert alert-danger d-none" id="alert-nome"></div>
-                </div>
-                
-                <!-- Campo Matricula-->
-                <div class="form-group mb-3">
-                    <input type="password" id="matricula" name="matricula" class="form-control" placeholder="Digite sua Matrícula">
-                    <div class="alert alert-danger d-none" id="alert-matricula"></div>
-                </div>
-                
-                <!-- Botão de Enviar -->
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
-                </div>
-                </form>
-
-                <p>Já possui uma conta?</p>
-                <!-- Link para a página de Login -->
-                <div class="link-container mx-auto">
-                    <button class="btn btn-outline-success" onclick="window.location.href='login'">Logar Conta</button>
-                    <a href="index.html" class="btn btn-outline-primary">Página Inicial</a>
-                </div>
+      <logo></logo>
+      <div class="form-card mx-auto">
+        <h2 class="card-title mb-3">Cadastro do Usuário</h2>
         
+        <form (ngSubmit)="onSubmit()" #formCadastro="ngForm">
+          <div class="form-group mb-3">
+            <input type="text" id="nome" name="nome" [(ngModel)]="nome" class="form-control" placeholder="Digite seu Nome" required />
+            <div class="alert alert-danger" *ngIf="nomeError" id="alert-nome">{{ nomeError }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" placeholder="Digite seu email" required />
+            <div class="alert alert-danger" *ngIf="emailError" id="alert-email">{{ emailError }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <input type="password" id="senha" name="senha" [(ngModel)]="senha" class="form-control" placeholder="Digite sua senha" required />
+            <div class="alert alert-danger" *ngIf="senhaError" id="alert-senha">{{ senhaError }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <input type="text" id="matric" name="matric" [(ngModel)]="matric" class="form-control" placeholder="Digite sua Matrícula" required />
+            <div class="alert alert-danger" *ngIf="matricError" id="alert-matric">{{ matricError }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <input type="text" id="curso" name="curso" [(ngModel)]="curso" class="form-control" placeholder="Digite seu Curso" required />
+            <div class="alert alert-danger" *ngIf="cursoError" id="alert-matric">{{ cursoError }}</div>
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="!formCadastro.valid">Cadastrar</button>
+          </div>
+        </form>
+        <p>Já possui uma conta?</p>
+        <div class="link-container mx-auto">
+          <button class="btn btn-outline-success" (click)="navigateToLogin()">Logar Conta</button>
+          <a href="index.html" class="btn btn-outline-primary">Página Inicial</a>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  

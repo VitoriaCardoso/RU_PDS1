@@ -1,92 +1,103 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { CardapioModel } from '../cardapio/models/cardapio.model'; 
+import { CardapioService } from '../cardapio/service/cardapio.service';
+import { FrequenciaModel } from '../cardapio/models/frequencia.model';
 
 @Component({
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   selector: 'app-cardapio',
   templateUrl: './cardapio.html',
   styleUrl: './cardapio.css'
 })
 export class ConsultaCardapioComponent {
   detalhesAtivo: boolean = false;
+  cardapio: CardapioModel[] = [];
+  cardapioAgrupado: any[] = [];
   diaSelecionado: any = null;
-  horarioSelecionado: { almoco: string | null, jantar: string | null } = { almoco: null, jantar: null };
+  horarioSelecionado: any = { almoco: null, jantar: null };
+  alunoId: number = 1; // Exemplo: Aluno logado com ID 123
+  dataFrequencia: string = new Date().toISOString().split('T')[0]; // Data atual no formato YYYY-MM-DD
 
-  cardapio = [
-    { dia: 'Segunda', almoco: 'Arroz, Feijão, Frango Grelhado', jantar: 'Sopa de Legumes, Pão' },
-    { dia: 'Terça', almoco: 'Macarrão ao Molho, Salada', jantar: 'Estrogonofe, Arroz' },
-    { dia: 'Quarta', almoco: 'Risoto de Frango, Legumes', jantar: 'Pasta com Molho de Tomate' },
-    { dia: 'Quinta', almoco: 'Feijoada, Arroz, Couve', jantar: 'Pizza' },
-    { dia: 'Sexta', almoco: 'Peixe Grelhado, Purê de Batata', jantar: 'Sanduíche Natural' },
-    { dia: 'Sábado', almoco: 'Frango à Parmegiana, Salada', jantar: 'Macarrão ao Molho Branco' },
-    { dia: 'Domingo', almoco: 'Feijão Tropeiro, Arroz', jantar: 'Churrasco, Pão de Alho' }
-  ];
+  constructor(private router: Router, private authService: AuthService, private cardapioService: CardapioService){
+    this.cardapioService.getCardapio().subscribe(
+      (data) => {
+        this.cardapio = data;
+        this.cardapioAgrupado = this.agruparPorDia(data);
+        console.log(this.cardapioAgrupado);
+      },
+      (error) => {
+        console.error('Erro ao carregar o cardápio:', error);
+      }
+    );
 
-  horarios = [
-    { 
-      dia: 'Segunda', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },
-    { 
-      dia: 'Terça', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },{ 
-      dia: 'Quarta', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },
-    { 
-      dia: 'Quinta', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },{ 
-      dia: 'Sexta', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },
-    { 
-      dia: 'Sabado', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },
-    { 
-      dia: 'Domingo', 
-      almoco: ['11:30 - 12:30', '12:30 - 13:30', '13:30 - 14:30'], 
-      jantar: ['18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'] 
-    },
-  ];
+    if (!this.authService.checkLoginStatus()) {
+      this.router.navigate(['/index']);
+    }
+  }
 
-  toggleDetalhes(index: number | null) {
-    if (index !== null) {
-      this.diaSelecionado = this.horarios[index];
-      this.horarioSelecionado = { almoco: null, jantar: null }; // Resetar seleção
-      this.detalhesAtivo = true;
-    } else {
+  agruparPorDia(cardapio: CardapioModel[]): any[] {
+    const dias: { [key: string]: { diaSemana: string; almoco: string | null; jantar: string | null } } = {};
+
+    cardapio.forEach((item) => {
+      if (!dias[item.diaSemana]) {
+        dias[item.diaSemana] = { diaSemana: item.diaSemana, almoco: null, jantar: null };
+      }
+      if (item.tipoRefeicao === 'Almoço') {
+        dias[item.diaSemana].almoco = item.descricao;
+      } else if (item.tipoRefeicao === 'Jantar') {
+        dias[item.diaSemana].jantar = item.descricao;
+      }
+    });
+
+    return Object.values(dias);
+  }
+
+  toggleDetalhes(index: number | null): void {
+    if (index === null) {
       this.detalhesAtivo = false;
       this.diaSelecionado = null;
+    } else {
+      this.detalhesAtivo = true;
+      this.diaSelecionado = this.cardapioAgrupado[index]; // <<< Aqui: pega da lista agrupada
     }
   }
 
   getHorariosAlmoco(): string[] {
-    return this.diaSelecionado?.almoco || [];
+    return ['12:00', '12:30', '13:00', '13:30', 'Não irei Almoçar!'];
   }
 
   getHorariosJantar(): string[] {
-    return this.diaSelecionado?.jantar || [];
+    return ['18:00', '18:30', '19:00', '19:30', 'Não irei Jantar!']; 
   }
 
-  selecionarHorario(tipo: 'almoco' | 'jantar', horario: string) {
-    this.horarioSelecionado[tipo] = this.horarioSelecionado[tipo] === horario ? null : horario;
+  selecionarHorario(tipo: string, horario: string): void {
+    this.horarioSelecionado[tipo] = horario;
   }
 
-  confirmarHorarios() {
-    if (this.horarioSelecionado.almoco || this.horarioSelecionado.jantar) {
-      alert(`Horários confirmados para ${this.diaSelecionado.dia}:
-            ${this.horarioSelecionado.almoco ? '\nAlmoço: ' + this.horarioSelecionado.almoco : ''}
-            ${this.horarioSelecionado.jantar ? '\nJantar: ' + this.horarioSelecionado.jantar : ''}`);
-      // Aqui você pode adicionar lógica para salvar no banco de dados ou fazer outra ação
+  confirmarHorarios(): void {
+    if (this.diaSelecionado && (this.horarioSelecionado.almoco || this.horarioSelecionado.jantar)) {
+      const frequencia: FrequenciaModel = {
+        aluno: 1,
+        dia_semana: this.diaSelecionado.diaSemana, // Supondo que diaSemana seja um número (ex. 1 = Segunda-feira)
+        horario: this.horarioSelecionado.almoco || this.horarioSelecionado.jantar, // Considera o horário de almoço ou jantar
+        data_frequencia: this.dataFrequencia, // Data atual
+      };
+
+      this.cardapioService.salvarFrequencia(frequencia).subscribe(
+        (response) => {
+          console.log('Frequência salva com sucesso:', response);
+          this.toggleDetalhes(null);
+        },
+        (error) => {
+          console.error(error);
+          console.error(this.alunoId)
+        }
+      );
+    } else {
+      alert('Selecione ao menos um horário de almoço ou jantar.');
     }
   }
 

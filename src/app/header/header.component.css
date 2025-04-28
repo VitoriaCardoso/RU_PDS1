@@ -57,6 +57,7 @@ ul {
     background-color: white;
     color: #0B2640;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .nav-link:active {

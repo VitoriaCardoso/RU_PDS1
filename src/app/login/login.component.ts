@@ -1,42 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { LogoComponent } from "../logo/logo.component";
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { LoginService } from '../../app/login/service/login.service';
+import { LoginModel } from '../login/models/login.model';
+import { AuthService } from '../services/auth.service';  // Importe o AuthService
 
 @Component({
   selector: 'app-login',
+  imports: [
+    LogoComponent,
+    FormsModule,
+    CommonModule,
+    RouterModule
+  ],
   standalone: true,
-  imports: [LogoComponent, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   email: string = '';
   senha: string = '';
-  mensagem: string = '';
-  erro: string = '';
+  erroEmail: string = '';
+  erroSenha: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router, private authService: AuthService) { }
 
-  onSubmit() {
-    console.log('Tentando fazer login com:', { email: this.email, senha: this.senha });
-    
-    this.http.post('http://localhost:8080/login/auth', {
-      email: this.email,
-      senha: this.senha
-    }).subscribe({
-      next: (response: any) => {
-        console.log('Login bem sucedido:', response);
-        localStorage.setItem('usuarioId', response.id);
-        localStorage.setItem('usuarioNome', response.nome);
-        this.router.navigate(['/avaliacao']);
+  onLogin(): void {
+    this.erroEmail = '';
+    this.erroSenha = '';
+
+
+    this.loginService.autenticar(this.email, this.senha).subscribe({
+      next: (res: LoginModel) => {
+        console.log(res)
+        localStorage.setItem('usuario', JSON.stringify(res));
+        this.router.navigate(['/index']);
+        this.authService.setLoginStatus(true);
       },
-      error: (error) => {
-        console.error('Erro no login:', error);
-        this.erro = 'Email ou senha incorretos';
+      error: (err) => {
+        console.log(err)
+        if (err.error == 'Senha incorreta.') {
+          this.erroSenha = 'Senha incorreta.';
+        } else if (err.error == 'Usuário não encontrado.') {
+          this.erroEmail = 'Usuário não encontrado.';
+        } else {
+          this.erroEmail = 'Credenciais inválidas ou usuário não encontrado';
+        }
       }
     });
   }
+
 }

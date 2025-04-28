@@ -1,36 +1,35 @@
 <div class="container">
     <div class="text-center">
-        <logo></logo>
-        <div class="form-card mx-auto">
-            <h2 class="card-title mb-3">Login do Usuário</h2>
-            <form (ngSubmit)="onSubmit()">
-                <!-- Campo Email -->
-                <div class="form-group mb-3">
-                    <input type="email" [(ngModel)]="email" name="email" autocomplete="off" class="form-control" placeholder="Digite seu email">
-                    <div class="alert alert-danger d-none" id="alert-email"></div>
-                </div>
-                
-                <!-- Campo Senha -->
-                <div class="form-group mb-3">
-                    <input type="password" [(ngModel)]="senha" name="senha" class="form-control" placeholder="Digite sua senha">
-                    <div class="alert alert-danger d-none" id="alert-senha"></div>
-                </div>
-                
-                <!-- Botão de Enviar -->
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
-                </div>
-            </form>
-
-            <div *ngIf="erro" class="alert alert-danger mt-3">
-                {{ erro }}
-            </div>
-
-            <p>Não possui uma conta?</p>
-            <div class="link-container mx-auto">
-                <button class="btn btn-outline-success" onclick="window.location.href='cadastro'">Criar Conta</button>
-                <a href="index.html" class="btn btn-outline-primary">Página Inicial</a>
-            </div>
+      <logo></logo>
+  
+      <div class="form-card mx-auto">
+        <h2 class="card-title mb-3">Login do Usuário</h2>
+  
+        <form #formLogin="ngForm" (ngSubmit)="onLogin()">
+          <!-- Campo Email -->
+          <div class="form-group mb-3">
+            <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" placeholder="Digite seu email" required>
+            <div class="alert alert-danger mt-3" *ngIf="erroEmail">{{ erroEmail }}</div>
+          </div>
+  
+          <!-- Campo Senha -->
+          <div class="form-group mb-3">
+            <input type="password" id="senha" name="senha" [(ngModel)]="senha" class="form-control" placeholder="Digite sua senha" required>
+            <div class="alert alert-danger mt-3" *ngIf="erroSenha">{{ erroSenha }}</div>
+          </div>
+  
+          <!-- Botão de Enviar -->
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+          </div>
+        </form>
+  
+        <p>Não possui uma conta?</p>
+  
+        <div class="link-container mx-auto">
+            <a class="btn btn-outline-success" routerLink="/cadastro">Criar Conta</a>
+            <a routerLink="/" class="btn btn-outline-primary">Página Inicial</a>
         </div>
+      </div>
     </div>
-</div>
+  </div>  

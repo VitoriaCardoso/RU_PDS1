@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-
 import { Chart, ChartConfiguration, ChartData, ChartEvent, registerables } from 'chart.js/auto';
+import { FrequenciaService } from './service/grafico.service'; 
 
 @Component({
   selector: 'app-grafico',
@@ -11,21 +11,39 @@ import { Chart, ChartConfiguration, ChartData, ChartEvent, registerables } from 
 export class ConsultaGraficoComponent implements AfterViewInit {
   @ViewChild('chart1') chart1!: ElementRef;
   @ViewChild('chart2') chart2!: ElementRef;
+  valores: any;
+
+  constructor(private frequenciaService: FrequenciaService) {
+    Chart.register(...registerables);
+
+  }
 
   ngAfterViewInit() {
-    this.criarGraficoDia(this.chart2.nativeElement);
-    this.criarGraficoSemana(this.chart1.nativeElement);
+    this.frequenciaService.graficoPorSemana().subscribe(
+      (data) => {
+        this.valores = data
+        console.log(data)
+        this.criarGraficoDia(this.chart2.nativeElement);
+        this.criarGraficoSemana(this.chart1.nativeElement);
+      },
+      (error) => {
+        console.error('Erro ao buscar dados:', error);
+      }
+    )
   }
 
   criarGraficoDia(canvas: HTMLCanvasElement) {
+    const labels = this.valores.map((item: any) => item.nome);
+    const data = this.valores.map((item: any) => item.valor);
+  
     new Chart(canvas, {
-    type: 'line',
+      type: 'line',
       data: {
-        labels: ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
+        labels: labels,
         datasets: [
           {
             label: 'Quantidade de Alunos',
-            data: [10, 12, 15, 18, 22, 25],
+            data: data,
             borderColor: '#008c9e',
             fill: false
           },
@@ -42,19 +60,29 @@ export class ConsultaGraficoComponent implements AfterViewInit {
         }
       }
     });
-  }
+  }  
 
   criarGraficoSemana(canvas: HTMLCanvasElement) {
+    const diaSemanaHoje = new Date().getDay(); 
+  
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+  
+    const nomeHoje = dias[diaSemanaHoje];
+  
+    const hojeData = this.valores.find((item: any) => item.nome === nomeHoje);
+  
+    const valorHoje = hojeData ? hojeData.valor : 0;
+  
     new Chart(canvas, {
       type: 'bar',
       data: {
-        labels: ['Segunda-Feira'],
+        labels: [nomeHoje],
         datasets: [{
           label: 'Quantidade de Alunos',
-          data: [30],
+          data: [valorHoje],
           backgroundColor: '#b1e6d1',
           borderColor: '#005f6b',
-          borderWidth: 2.5 ,
+          borderWidth: 2.5,
         }],
       },
       options: {
@@ -68,5 +96,5 @@ export class ConsultaGraficoComponent implements AfterViewInit {
         }
       }
     });
-  }
+  }  
 }

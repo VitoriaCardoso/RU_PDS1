@@ -1,48 +1,80 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { AvaliacaoService } from '../avaliacao/service/avaliacao.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-avaliacao',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './avaliacao.html',
-  styleUrl: './avaliacao.css'
+  styleUrls: ['./avaliacao.css']
 })
-export class ConsultaAvaliacaoComponent {
+export class ConsultaAvaliacaoComponent implements OnInit {
+
+  usuario = {
+    nome: '',
+    matric: '',
+    curso: ''
+  };
+
   nota: number = 1;
   comentarios: string = '';
-  mensagem: string = '';
-  erro: string = '';
+  mensagemSucesso: string = '';
+  mensagemErro: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private avaliacaoService: AvaliacaoService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    // Se o usuário não estiver logado, redireciona para login
+    if (!this.authService.checkLoginStatus()) {
+      this.router.navigate(['/index']);
+    }
+  }
 
-  onSubmit() {
-    const usuarioId = localStorage.getItem('usuarioId'); // Assumindo que o ID do usuário está armazenado no localStorage após o login
-    
-    if (!usuarioId) {
-      this.erro = 'Usuário não está logado';
+  ngOnInit(): void {
+    // Recupera o usuário do localStorage
+    const usuarioSalvo = localStorage.getItem('usuario');
+    if (usuarioSalvo) {
+      this.usuario = JSON.parse(usuarioSalvo);
+      console.log('Usuário carregado:', this.usuario);
+    }
+  }
+
+  onSubmit(): void {
+    const matricula = this.usuario.matric; // Coleta a matrícula do usuário
+
+    // Verifica se nota e comentário foram preenchidos corretamente
+    if (!this.nota || this.comentarios.trim() === '') {
+      this.mensagemErro = 'Campos obrigatórios não preenchidos.';
+      this.mensagemSucesso = '';
       return;
     }
 
-    this.http.post('http://localhost:8080/avaliacao', null, {
-      params: {
-        usuarioId: usuarioId,
-        nota: this.nota.toString(),
-        comentarios: this.comentarios
-      }
-    }).subscribe({
-      next: () => {
-        this.mensagem = 'Avaliação enviada com sucesso!';
-        this.erro = '';
-        this.nota = 1;
-        this.comentarios = '';
-      },
-      error: (error) => {
-        this.erro = 'Erro ao enviar avaliação: ' + error.message;
-        this.mensagem = '';
-      }
-    });
+    // Chama o serviço para salvar a avaliação
+    this.avaliacaoService
+      .salvarAvaliacao(matricula, this.nota, this.comentarios)
+      .subscribe({
+        next: () => {
+          this.mensagemSucesso = 'Avaliação enviada com sucesso!';
+          this.mensagemErro = '';
+          // Limpa o formulário
+          this.nota = 1;
+          this.comentarios = '';
+        },
+        error: (err) => {
+          console.error(err);
+          this.mensagemErro = 'Erro ao enviar avaliação.';
+          this.mensagemSucesso = '';
+        }
+      });
   }
 }
