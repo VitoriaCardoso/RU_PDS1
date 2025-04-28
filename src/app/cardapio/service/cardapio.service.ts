@@ -27,4 +27,8 @@ export class CardapioService {
   verificarFrequenciaExistente(alunoId: number, diaSemana: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/verificar/${alunoId}/${diaSemana}`);
   }
+
+  atualizarFrequencia(frequencia: FrequenciaModel): Observable<FrequenciaModel> {
+    return this.http.put<FrequenciaModel>(`${this.apiUrl}`, frequencia);
+  }
 }

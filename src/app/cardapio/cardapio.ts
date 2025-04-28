@@ -30,7 +30,7 @@ export class ConsultaCardapioComponent {
   alunoId: number = 0;
   dataFrequencia: string = new Date().toISOString().split('T')[0]; 
   erroSalvar: string = '';
-
+  corretoSalvar: string = '';
 
   constructor(private router: Router, private authService: AuthService, private cardapioService: CardapioService){
     const votoStatus = localStorage.getItem('votoFeito');
@@ -39,7 +39,7 @@ export class ConsultaCardapioComponent {
     }
     
     if (!this.authService.checkLoginStatus()) {
-      this.router.navigate(['/index']);
+      this.router.navigate(['/grafico']);
     }
 
     const usuarioSalvo = localStorage.getItem('usuario');
@@ -53,7 +53,6 @@ export class ConsultaCardapioComponent {
     this.cardapioService.getCardapio().subscribe(
       (data) => {
         this.cardapio = data;
-        console.log(data)
         this.cardapioAgrupado = this.agruparPorDia(data);
         console.log(this.cardapioAgrupado);
       },
@@ -63,15 +62,13 @@ export class ConsultaCardapioComponent {
     );
 
     if (!this.authService.checkLoginStatus()) {
-      this.router.navigate(['/index']);
+      this.router.navigate(['/grafico']);
     }
   }
 
   agruparPorDia(cardapio: CardapioModel[]): any[] {
     const dias: { [key: number]: { diaSemana: number; almoco: string | null; jantar: string | null } } = {};
 
-    console.log(dias)
-  
     const diasDaSemana: { [key: string]: number } = {
       'Segunda': 1,
       'Terça': 2,
@@ -85,8 +82,6 @@ export class ConsultaCardapioComponent {
     cardapio.forEach((item) => {
       const diaSemana = diasDaSemana[item.diaSemana]; // Mapear o nome para o número
       const nomeDia = Object.keys(diasDaSemana).find(key => diasDaSemana[key] === item.diaSemana); // Mapeia o número para o nome do dia
-
-      console.log(diasDaSemana)
   
       if (!dias[diaSemana]) {
         dias[diaSemana] = { diaSemana, almoco: null, jantar: null };
@@ -126,6 +121,7 @@ export class ConsultaCardapioComponent {
   }
 
   confirmarHorarios(): void {
+    this.corretoSalvar = '';
     this.erroSalvar = '';
     console.log('Aluno ID:', this.alunoId); 
   
@@ -138,13 +134,15 @@ export class ConsultaCardapioComponent {
       const frequencia: FrequenciaModel = {
         aluno: this.alunoId ,
         dia_semana: this.diaSelecionado.diaSemana,
-        horario: this.horarioSelecionado.almoco || this.horarioSelecionado.jantar,
+        horariod: this.horarioSelecionado.almoco,
+        horarion: this.horarioSelecionado.jantar,
         data_frequencia: this.dataFrequencia,
       };
   
       this.cardapioService.salvarFrequencia(frequencia).subscribe(
         (response) => {
           console.log('Frequência salva com sucesso:', response);
+          this.corretoSalvar = 'Frequência salva com sucesso!';
           this.toggleDetalhes(null);
           this.votoFeito = true;
           localStorage.setItem('votoFeito', 'true');
@@ -153,11 +151,11 @@ export class ConsultaCardapioComponent {
           console.error('Erro ao salvar a frequência:', error);
           if (error.status === 400 || error.status === 409) {
             const mensagem = typeof error.error === 'string' ? error.error : error.error.message;
-            alert(mensagem || 'Você já votou esse dia!');
+            this.erroSalvar = mensagem || 'Você já votou esse dia!';
           } else {
-            alert('Você já votou esse dia!');
+            this.erroSalvar = 'Você já votou esse dia!';
           }
-        }        
+        }       
       );
     } else {
       alert('Selecione ao menos um horário de almoço ou jantar.');
@@ -166,5 +164,26 @@ export class ConsultaCardapioComponent {
 
   isDetalheAtivo(): boolean {
     return this.detalhesAtivo;
+  }
+
+  updateFrequencia(): void {
+    const frequencia: FrequenciaModel = {
+      aluno: this.alunoId ,
+      dia_semana: this.diaSelecionado.diaSemana,
+      horariod: this.horarioSelecionado.almoco,
+      horarion: this.horarioSelecionado.jantar,
+      data_frequencia: this.dataFrequencia,
+    };
+
+    console.log(frequencia)
+
+    this.cardapioService.atualizarFrequencia(frequencia).subscribe(
+      (response) => {
+        console.log('Frequência atualizada com sucesso:', response);
+      },
+      (error) => {
+        console.error('Erro ao atualizar a frequência:', error);
+      }
+    );
   }
 }

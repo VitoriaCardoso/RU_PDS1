@@ -34,7 +34,7 @@ export class ConsultaAvaliacaoComponent {
     // this.usuarioId = id ? parseInt(id, 10) : 0;
     this.usuarioId = 0;
     if (!this.authService.checkLoginStatus()) {
-      this.router.navigate(['/index']);
+      this.router.navigate(['/grafico']);
     }
   }
 

@@ -9,8 +9,8 @@ import { CadastroComponent } from './cadastro/cadastro.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'index', pathMatch: 'full' },
-    { path: 'index', component: MainPageComponent },
+    { path: '', redirectTo: 'grafico', pathMatch: 'full' },
+    { path: 'home', component: MainPageComponent },
     { path: 'login', component: LoginComponent },
     { path: 'cadastro', component: CadastroComponent},
     { path: 'avaliacao', title: 'Avaliação', component: ConsultaAvaliacaoComponent },

@@ -64,6 +64,9 @@
 
                     <h6>Confira sempre a Tabela Códigos dos Dias acima para confirmar no Dia certo!</h6>
 
+
+                    <div class="alert alert-success mt-3" *ngIf="corretoSalvar">{{ corretoSalvar }}</div>
+                    <div class="alert alert-danger mt-3" *ngIf="erroSalvar">{{ erroSalvar }}</div>
                     <div class="mb-3">
                         <h6>Almoço:</h6>
                         <div class="btn-group-vertical" role="group">
@@ -95,8 +98,6 @@
                         [disabled]="!horarioSelecionado.almoco && !horarioSelecionado.jantar">
                         Confirmar
                     </button>
-
-                    <button type="button" class="btn btn-warning me-2">Editar</button>
 
                     <button class="btn btn-danger me-2" (click)="toggleDetalhes(null)">Fechar</button>
                 </div>
