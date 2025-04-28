@@ -1,0 +1,11 @@
+.tabela-customizada {
+    width: 40%;
+    table-layout: fixed; 
+    border-collapse: collapse;
+  }
+
+  .tabela-customizada th,
+  .tabela-customizada td {
+    width: 50%; 
+    padding: 10px;
+}

@@ -17,14 +17,14 @@ export class CardapioService {
   }
   
   salvarFrequencia(frequencia: FrequenciaModel): Observable<FrequenciaModel> {
-    const params = new HttpParams()
-      .set('aluno', frequencia.aluno.toString())
-      .set('dia_semana', frequencia.dia_semana.toString())
-      .set('horario', frequencia.horario)
-      .set('data_frequencia', frequencia.data_frequencia);
+    return this.http.post<FrequenciaModel>(this.apiUrl, frequencia);
+  }
 
-    return this.http.post<FrequenciaModel>(`${this.apiUrl}`, { params });
+  salvarFrequencia2(frequencia: FrequenciaModel): Observable<FrequenciaModel> {
+    return this.http.post<FrequenciaModel>(this.apiUrl, frequencia);
+  }
 
-    
+  verificarFrequenciaExistente(alunoId: number, diaSemana: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/verificar/${alunoId}/${diaSemana}`);
   }
 }

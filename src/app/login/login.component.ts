@@ -20,6 +20,7 @@ import { AuthService } from '../services/auth.service';  // Importe o AuthServic
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  usuario: string = '';
   email: string = '';
   senha: string = '';
   erroEmail: string = '';
@@ -38,6 +39,8 @@ export class LoginComponent {
         localStorage.setItem('usuario', JSON.stringify(res));
         this.router.navigate(['/index']);
         this.authService.setLoginStatus(true);
+        const loginSucesso = this.authService.login(this.usuario, this.senha);
+
       },
       error: (err) => {
         console.log(err)

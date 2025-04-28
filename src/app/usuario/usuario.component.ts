@@ -36,6 +36,7 @@ export class UsuarioComponent implements OnInit {
     if (usuarioSalvo) {
       this.usuario = JSON.parse(usuarioSalvo);
       this.id = this.usuario.id
+      console.log(this.id)
     }
   }
 

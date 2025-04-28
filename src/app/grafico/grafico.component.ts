@@ -21,8 +21,8 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.frequenciaService.graficoPorSemana().subscribe(
       (data) => {
-        this.valores = data
-        console.log(data)
+        this.valores = data;
+        console.log("Estrutura dos dados:", this.valores);
         this.criarGraficoDia(this.chart2.nativeElement);
         this.criarGraficoSemana(this.chart1.nativeElement);
       },
@@ -33,8 +33,11 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   }
 
   criarGraficoDia(canvas: HTMLCanvasElement) {
-    const labels = this.valores.map((item: any) => item.nome);
-    const data = this.valores.map((item: any) => item.valor);
+    const labels = this.valores.map((item: any) => item[0]);
+  const data = this.valores.map((item: any) => item[1]);
+  
+  console.log(labels);
+  console.log(data);
   
     new Chart(canvas, {
       type: 'line',
@@ -65,13 +68,15 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   criarGraficoSemana(canvas: HTMLCanvasElement) {
     const diaSemanaHoje = new Date().getDay(); 
   
-    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   
     const nomeHoje = dias[diaSemanaHoje];
   
-    const hojeData = this.valores.find((item: any) => item.nome === nomeHoje);
+    const hojeData = this.valores.find((item: any) => item[0] === nomeHoje);  
   
-    const valorHoje = hojeData ? hojeData.valor : 0;
+    console.log(hojeData);
+  
+    const valorHoje = hojeData ? hojeData[1] : 0; 
   
     new Chart(canvas, {
       type: 'bar',
@@ -96,5 +101,5 @@ export class ConsultaGraficoComponent implements AfterViewInit {
         }
       }
     });
-  }  
+  }
 }

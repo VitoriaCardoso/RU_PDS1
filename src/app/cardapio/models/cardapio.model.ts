@@ -1,6 +1,6 @@
 export interface CardapioModel {
     id: number;
-    diaSemana: string;
+    diaSemana: number;
     tipoRefeicao: string;
     descricao: string;
   }  
