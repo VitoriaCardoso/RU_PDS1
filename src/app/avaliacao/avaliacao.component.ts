@@ -19,23 +19,30 @@ import { UsuarioComponent } from '../usuario/usuario.component';
 })
 export class ConsultaAvaliacaoComponent {
 
+  avaliacao = {
+    id: 0,
+    nota: 0,
+    comentario: '',
+    usuario: 0
+  }
+
   nota: number = 1;
   comentarios: string = '';
-  usuarioId: number;
+  usuarioId: any;
   mensagemSucesso: string = '';
   mensagemErro: string = '';
 
-  constructor(private avaliacaoService: AvaliacaoService, private router: Router, private authService: AuthService) {
+  constructor( private avaliacaoService: AvaliacaoService, private router: Router,private authService: AuthService) {
     const usuario = localStorage.getItem('usuario');
     if (usuario) {
       this.usuarioId = JSON.parse(usuario);
-      console.log(this.usuarioId)
+      console.log(this.usuarioId);
     }
-    // this.usuarioId = id ? parseInt(id, 10) : 0;
-    this.usuarioId = 0;
+
     if (!this.authService.checkLoginStatus()) {
       this.router.navigate(['/grafico']);
     }
+    
   }
 
   onSubmit(): void {
@@ -43,22 +50,26 @@ export class ConsultaAvaliacaoComponent {
       this.mensagemErro = 'Usuário não identificado. Faça login.';
       return;
     }
-  
-    this.avaliacaoService
-    .salvarAvaliacao(this.usuarioId, this.nota, this.comentarios)
-      .subscribe({
-        next: (res) => {
-          this.mensagemSucesso = 'Avaliação enviada com sucesso!';
-          this.mensagemErro = '';
-          this.nota = 1;
-          this.comentarios = '';
-        },
-        error: (err) => {
-          console.log(this.usuarioId, this.nota);
-          console.error(err);
-          this.mensagemErro = 'Erro ao enviar avaliação.';
-          this.mensagemSucesso = '';
-        },
-      });
-    }
+
+    const avaliacao: AvaliacaoModel = {
+      id: 0, // Deixa 0, o backend vai gerar o ID
+      nota: this.nota,
+      comentarios: this.comentarios,
+      usuario: this.usuarioId
+    };
+
+    this.avaliacaoService.salvarAvaliacaocerto(avaliacao).subscribe({
+      next: (res) => {
+        this.mensagemSucesso = 'Avaliação enviada com sucesso!';
+        this.mensagemErro = '';
+        this.nota = 1;
+        this.comentarios = '';
+      },
+      error: (err) => {
+        console.error(err);
+        this.mensagemErro = 'Erro ao enviar avaliação.';
+        this.mensagemSucesso = '';
+      }
+    });
+  }
 }

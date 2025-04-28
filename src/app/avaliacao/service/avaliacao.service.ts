@@ -28,6 +28,11 @@ export class AvaliacaoService {
     };
     return this.http.post<AvaliacaoModel>(`${this.apiUrl}`, body);
   }
+
+  salvarAvaliacaocerto(avaliacao: AvaliacaoModel): Observable<AvaliacaoModel> {
+    const url = `${this.apiUrl}/correto`; 
+    return this.http.post<AvaliacaoModel>(url, avaliacao);
+  }
   
   getAvaliacaoById(id: number): Observable<AvaliacaoModel> {
     return this.http.get<AvaliacaoModel>(`${this.apiUrl}/${id}`);
