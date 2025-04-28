@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, ChartData, ChartEvent, registerables } from 'chart.js/auto';
-import { FrequenciaService } from './service/grafico.service'; // ajuste o caminho conforme seu projeto
+import { FrequenciaService } from './service/grafico.service'; 
 
 @Component({
   selector: 'app-grafico',
@@ -11,66 +11,90 @@ import { FrequenciaService } from './service/grafico.service'; // ajuste o camin
 export class ConsultaGraficoComponent implements AfterViewInit {
   @ViewChild('chart1') chart1!: ElementRef;
   @ViewChild('chart2') chart2!: ElementRef;
+  valores: any;
 
   constructor(private frequenciaService: FrequenciaService) {
     Chart.register(...registerables);
+
   }
 
   ngAfterViewInit() {
-    this.criarGraficoDia('segunda');
-    this.criarGraficoSemana();
+    this.frequenciaService.graficoPorSemana().subscribe(
+      (data) => {
+        this.valores = data
+        console.log(data)
+        this.criarGraficoDia(this.chart2.nativeElement);
+        this.criarGraficoSemana(this.chart1.nativeElement);
+      },
+      (error) => {
+        console.error('Erro ao buscar dados:', error);
+      }
+    )
   }
 
-  criarGraficoDia(diaSemana: string): void {
-    this.frequenciaService.graficoPorDia(diaSemana).subscribe(data => {
-      const labels = data.map(item => item.horario); // ajuste conforme seu backend
-      const values = data.map(item => item.quantidade);
-
-      new Chart(this.chart1.nativeElement, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: `Frequência na ${diaSemana}`,
-            data: values,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    });
-  }
-
-  criarGraficoSemana() {
-    this.frequenciaService.graficoPorSemana().subscribe(data => {
-      const labels = data.map(item => item.diaSemana); // ajuste conforme seu backend
-      const values = data.map(item => item.quantidadeTotal);
-    new Chart(this.chart2.nativeElement, {
+  criarGraficoDia(canvas: HTMLCanvasElement) {
+    const labels = this.valores.map((item: any) => item.nome);
+    const data = this.valores.map((item: any) => item.valor);
+  
+    new Chart(canvas, {
       type: 'line',
       data: {
-        labels,
-        datasets: [{
-          label: 'Frequência na Semana',
-          data: values,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          fill: false,
-          tension: 0.3
-        }]
+        labels: labels,
+        datasets: [
+          {
+            label: 'Quantidade de Alunos',
+            data: data,
+            borderColor: '#008c9e',
+            fill: false
+          },
+        ]
       },
       options: {
         responsive: true,
-        scales: {
-          y: { beginAtZero: true }
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
         }
       }
     });
-  });
-}}
+  }  
+
+  criarGraficoSemana(canvas: HTMLCanvasElement) {
+    const diaSemanaHoje = new Date().getDay(); 
+  
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+  
+    const nomeHoje = dias[diaSemanaHoje];
+  
+    const hojeData = this.valores.find((item: any) => item.nome === nomeHoje);
+  
+    const valorHoje = hojeData ? hojeData.valor : 0;
+  
+    new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: [nomeHoje],
+        datasets: [{
+          label: 'Quantidade de Alunos',
+          data: [valorHoje],
+          backgroundColor: '#b1e6d1',
+          borderColor: '#005f6b',
+          borderWidth: 2.5,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+  }  
+}

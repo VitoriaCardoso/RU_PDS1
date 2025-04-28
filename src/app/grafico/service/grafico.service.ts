@@ -7,16 +7,11 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class FrequenciaService {
-  private apiUrl = environment.apiUrl + '/frequencias'; // ajuste a URL conforme seu backend
+  private apiUrl = environment.apiUrl + '/grafico'; // ajuste a URL conforme seu backend
 
   constructor(private http: HttpClient) {}
 
-  graficoPorDia(diaSemana: string): Observable<any[]> {
-    const params = new HttpParams().set('diaSemana', diaSemana);
-    return this.http.get<any[]>(`${this.apiUrl}/grafico`, { params });
-  }
-
   graficoPorSemana(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/grafico`);
+    return this.http.get<any[]>(`${this.apiUrl}`);
   }
 }

@@ -10,7 +10,19 @@ import { LogoComponent } from '../logo/logo.component';
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
+  usuario = {
+    nome: '',
+    matric: '',
+    curso: ''
+  };
   presencaConfirmada = false;
+
+  ngOnInit(): void {
+    const usuarioSalvo = localStorage.getItem('usuario');
+    if (usuarioSalvo) {
+      this.usuario = JSON.parse(usuarioSalvo);
+    }
+  }
 
   confirmarPresenca() {
     this.presencaConfirmada = true;

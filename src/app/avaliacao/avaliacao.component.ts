@@ -3,12 +3,16 @@ import { AvaliacaoService } from '../avaliacao/service/avaliacao.service';
 import { AvaliacaoModel } from '../avaliacao/models/avaliacao.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { UsuarioComponent } from '../usuario/usuario.component';
 
 @Component({
   selector: 'app-avaliacao',
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './avaliacao.html',
   styleUrl: './avaliacao.css'
@@ -21,9 +25,17 @@ export class ConsultaAvaliacaoComponent {
   mensagemSucesso: string = '';
   mensagemErro: string = '';
 
-  constructor(private avaliacaoService: AvaliacaoService) {
-    const id = localStorage.getItem('usuarioId');
-    this.usuarioId = id ? parseInt(id, 10) : 0; 
+  constructor(private avaliacaoService: AvaliacaoService, private router: Router, private authService: AuthService) {
+    const usuario = localStorage.getItem('usuario');
+    if (usuario) {
+      this.usuarioId = JSON.parse(usuario);
+      console.log(this.usuarioId)
+    }
+    // this.usuarioId = id ? parseInt(id, 10) : 0;
+    this.usuarioId = 0;
+    if (!this.authService.checkLoginStatus()) {
+      this.router.navigate(['/index']);
+    }
   }
 
   onSubmit(): void {

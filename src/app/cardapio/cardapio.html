@@ -9,10 +9,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let dia of cardapio; let i = index">
-            <td>{{ dia.dia }}</td>
-            <td>{{ dia.almoco }}</td>
-            <td>{{ dia.jantar }}</td>
+        <tr *ngFor="let dia of cardapioAgrupado; let i = index">
+            <td>{{ dia.diaSemana }}</td>
+            <td>{{ dia.almoco || 'Não disponível' }}</td> <!-- Exibe 'Não disponível' caso não tenha almoço -->
+            <td>{{ dia.jantar || 'Não disponível' }}</td> <!-- Exibe 'Não disponível' caso não tenha jantar -->
             <td>
                 <button class="btn btn-primary" (click)="toggleDetalhes(i)">Detalhes</button>
             </td>
@@ -20,41 +20,40 @@
         <tr *ngIf="isDetalheAtivo()">
             <td colspan="4">
                 <div class="container">
-                    <h5>Horários Disponíveis para {{ diaSelecionado?.dia }}</h5>
-                    
+                    <h5>Horários Disponíveis para {{ diaSelecionado?.diaSemana }}</h5>
+
                     <div class="mb-3">
                         <h6>Almoço:</h6>
                         <div class="btn-group-vertical" role="group">
-                            <button *ngFor="let horario of getHorariosAlmoco()" 
-                                    class="btn btn-outline-primary mb-1"
-                                    (click)="selecionarHorario('almoco', horario)"
-                                    [class.active]="horarioSelecionado.almoco === horario">
+                            <button *ngFor="let horario of getHorariosAlmoco()" class="btn btn-outline-primary mb-1"
+                                (click)="selecionarHorario('almoco', horario)"
+                                [class.active]="horarioSelecionado.almoco === horario">
                                 {{ horario }}
                             </button>
                         </div>
                     </div>
-                    
                     <div class="mb-3">
                         <h6>Jantar:</h6>
                         <div class="btn-group-vertical" role="group">
-                            <button *ngFor="let horario of getHorariosJantar()" 
-                                    class="btn btn-outline-primary mb-1"
-                                    (click)="selecionarHorario('jantar', horario)"
-                                    [class.active]="horarioSelecionado.jantar === horario">
+                            <button *ngFor="let horario of getHorariosJantar()" class="btn btn-outline-primary mb-1"
+                                (click)="selecionarHorario('jantar', horario)"
+                                [class.active]="horarioSelecionado.jantar === horario">
                                 {{ horario }}
                             </button>
                         </div>
                     </div>
-                    
                     <div *ngIf="horarioSelecionado.almoco || horarioSelecionado.jantar" class="alert alert-info">
-                        <p *ngIf="horarioSelecionado.almoco"><strong>Almoço selecionado:</strong> {{ horarioSelecionado.almoco }}</p>
-                        <p *ngIf="horarioSelecionado.jantar"><strong>Jantar selecionado:</strong> {{ horarioSelecionado.jantar }}</p>
+                        <p *ngIf="horarioSelecionado.almoco"><strong>Almoço selecionado:</strong> {{
+                            horarioSelecionado.almoco }}</p>
+                        <p *ngIf="horarioSelecionado.jantar"><strong>Jantar selecionado:</strong> {{
+                            horarioSelecionado.jantar }}</p>
                     </div>
-                    
-                    <button class="btn btn-success me-2" (click)="confirmarHorarios()" 
-                            [disabled]="!horarioSelecionado.almoco && !horarioSelecionado.jantar">
+
+                    <button class="btn btn-success me-2" (click)="confirmarHorarios()"
+                        [disabled]="!horarioSelecionado.almoco && !horarioSelecionado.jantar">
                         Confirmar
                     </button>
+
                     <button class="btn btn-danger" (click)="toggleDetalhes(null)">Fechar</button>
                 </div>
             </td>

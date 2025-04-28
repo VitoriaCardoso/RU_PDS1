@@ -15,4 +15,8 @@ export class CadastroService {
   criarUsuario(usuario: CadastroModel): Observable<CadastroModel> {
     return this.http.post<CadastroModel>(this.apiUrl, usuario);
   }
+
+  editarUsuario(id: number,usuario: CadastroModel): Observable<CadastroModel> {
+    return this.http.put<CadastroModel>(`${this.apiUrl}/editar_usuario/${id}`, usuario);
+  }
 }
