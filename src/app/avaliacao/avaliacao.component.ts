@@ -66,9 +66,13 @@ export class ConsultaAvaliacaoComponent {
         this.comentarios = '';
       },
       error: (err) => {
-        console.error(err);
-        this.mensagemErro = 'Erro ao enviar avaliação.';
-        this.mensagemSucesso = '';
+        console.error('Erro ao salvar a frequência:', err);
+        if (err.status === 400 || err.status === 409) {
+          const mensagem = typeof err.error === 'string' ? err.error : err.error.message;
+          this.mensagemErro = mensagem || 'Você já votou esse dia!';
+        } else {
+          this.mensagemErro = 'Você já votou esse dia!';
+        }
       }
     });
   }
