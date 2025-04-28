@@ -24,7 +24,16 @@ export class ConsultaGraficoComponent implements AfterViewInit {
         this.valores = data;
         console.log("Estrutura dos dados:", this.valores);
         this.criarGraficoDia(this.chart2.nativeElement);
-        this.criarGraficoSemana(this.chart1.nativeElement);
+      },
+      (error) => {
+        console.error('Erro ao buscar dados:', error);
+      }
+    )
+    this.frequenciaService.contarFrequenciasPorDiaSemanaEHorario().subscribe(
+      (data) => {
+        this.valores = data;
+        console.log("Estrutura dos dados:", this.valores);
+        this.criarGraficoSemanaJantaAlmoco(this.chart1.nativeElement)
       },
       (error) => {
         console.error('Erro ao buscar dados:', error);
@@ -33,7 +42,7 @@ export class ConsultaGraficoComponent implements AfterViewInit {
   }
 
   criarGraficoDia(canvas: HTMLCanvasElement) {
-    const labels = this.valores.map((item: any) => item[0]);
+  const labels = this.valores.map((item: any) => item[0]);
   const data = this.valores.map((item: any) => item[1]);
   
   console.log(labels);
@@ -67,9 +76,7 @@ export class ConsultaGraficoComponent implements AfterViewInit {
 
   criarGraficoSemana(canvas: HTMLCanvasElement) {
     const diaSemanaHoje = new Date().getDay(); 
-  
     const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  
     const nomeHoje = dias[diaSemanaHoje];
   
     const hojeData = this.valores.find((item: any) => item[0] === nomeHoje);  
@@ -102,4 +109,57 @@ export class ConsultaGraficoComponent implements AfterViewInit {
       }
     });
   }
+
+  criarGraficoSemanaJantaAlmoco(canvas: HTMLCanvasElement) {
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  const diaSemanaHoje = new Date().getDay();
+  const nomeHoje = dias[diaSemanaHoje];
+
+  console.log('Hoje é', nomeHoje, `(número: ${diaSemanaHoje})`);
+
+  const almocoData = this.valores.find((item: any) => item[0] === 'Almoço' && Number(item[1]) === diaSemanaHoje);
+  const jantarData = this.valores.find((item: any) => item[0] === 'Jantar' && Number(item[1]) === diaSemanaHoje);
+
+  const valorAlmoco = almocoData ? Math.round(Number(almocoData[3])) : 0;
+  const valorJantar = jantarData ? Math.round(Number(jantarData[3])) : 0;
+
+  console.log('Valor almoço hoje:', valorAlmoco);
+  console.log('Valor jantar hoje:', valorJantar);
+
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: ['Almoço', 'Jantar'],
+      datasets: [{
+        label: `Quantidade de Alunos (${nomeHoje})`,
+        data: [valorAlmoco, valorJantar],
+        backgroundColor: ['#b1e6d1', '#f7c59f'],
+        borderColor: ['#005f6b', '#c97c5d'],
+        borderWidth: 2.5,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: function(value: any) {
+              if (Number.isInteger(value)) {
+                return value;
+              }
+              return null;
+            }
+          }
+        }
+      }
+    }
+  });
+}
 }
